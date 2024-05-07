@@ -1,17 +1,25 @@
 # ses-templates
 
-These [AWS Simple Email Service (SES)](https://aws.amazon.com/ses/) HTML templates are the default templates used for notifications sent from the Consent Management service. HTML templates must be minified before being injected into the service. Be care when minifying and ensure the formatter does not remove necessary spaces.
+These [AWS Simple Email Service (SES)](https://aws.amazon.com/ses/) HTML templates are the default templates used for 
+notifications sent from the Consent Management service. The HTML template verbiage should also be a reflection of what's 
+documented in [Confluence](https://adatree.atlassian.net/wiki/x/AQBAGw).
+
+## Minifying HTML
+HTML templates must be minified (using online tools) before being injected into the service. Be careful when minifying 
+and ensure the formatter does not remove necessary spaces. These minified templates are currently put into 
+[adr-platform-deploy](https://github.com/Adatree/adr-platform-deploy/blob/main/service-catalog/products/per-tenant-infra/stack-of-stacks.yaml).
 
 ## Email Subjects
 
-| Template name | Subject |
-|-|-|
-| consent-expired.min.html | Data sharing with {{granteeName}} has expired |
-| consent-granted.min.html | Consent to share your data with {{granteeName}} |
-| consent-reminder.min.html | Reminder of your data sharing with {{granteeName}} |
-| consent-revoked.min.html | {{granteeName}} is no longer receiving your data from {{dataHolderName}} |
+| Template name              | Subject                                                                  |
+|----------------------------|--------------------------------------------------------------------------|
+| consent-expired.min.html   | Data sharing with {{granteeName}} has expired                            |
+| consent-granted.min.html   | Consent to share your data with {{granteeName}}                          |
+| consent-reminder.min.html  | Reminder of your data sharing with {{granteeName}}                       |
+| consent-revoked.min.html   | {{granteeName}} is no longer receiving your data from {{dataHolderName}} |
 | consent-withdrawn.min.html | {{granteeName}} is no longer receiving your data from {{dataHolderName}} |
-| one-time-password.min.html | {{oneTimePassword}} is your {{sender}} one-time password |
+| consent-extended.min.html  | Data sharing with {{granteeName}} has been extended                      |
+| one-time-password.min.html | {{oneTimePassword}} is your {{sender}} one-time password                 |
 
 ## SES Attributes
 
