@@ -23,7 +23,22 @@ and ensure the formatter does not remove necessary spaces. These minified templa
 | one-time-password.min.html | {{oneTimePassword}} is your {{sender}} one-time password                 |
 | passwordless-link.min.html | Sign in to {{sender}}                                                    |
 
-## SES Attributes
+## Template usage
+
+This table outlines the scenario under which each email template will be used:
+
+| File              | Description                                                                                                                                          |
+|-------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| consent-granted   | Email sent to a consumer when their consent transitions from REQUESTED to ACTIVE status in the Adatree platform.                                     | 
+| consent-extended  | Email sent to a consumer after the sharing end date of their consent has been successfully amended. Requires consent extension feature to be enabled | 
+| consent-reminder  | Email sent to a consumer 3 months before their consent expires.                                                                                      | 
+| consent-expired   | Email sent to a consumer after their consent's sharing end date has passed.                                                                          | 
+| consent-withdrawn | Email sent to a consumer after they revoke their consent either through the consent dashboard or from the data holder's portal.                      | 
+| consent-revoked   | Email sent to a consumer after the ADR (ie. Adatree) revokes the consent.                                                                            | 
+| one-time-password | Email sent to a consumer containing the one-time password (OTP) required to login to the consent dashboard to manage their own consents.             | 
+| passwordless-link | Email sent to a consumer with a link that allows them to log in to the consent dashboard without a password to manage their consents.                | 
+
+## Template Attributes
 
 | Name              | Description                                                                                                                                                                                                                                                                                                                                                                                                                                      | Possible Values/Examples                                                                        |
 |-------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------|
@@ -42,112 +57,3 @@ and ensure the formatter does not remove necessary spaces. These minified templa
 | oneTimePassword   | One time password code used to login to the consent dashboard for consent management                                                                                                                                                                                                                                                                                                                                                             | 123456                                                                                          |
 | sender            | Brand name of the sender                                                                                                                                                                                                                                                                                                                                                                                                                         | Adatree                                                                                         |
 | link              | Temporary URL that can be used to login to the consent dashboard for consent management without a password.                                                                                                                                                                                                                                                                                                                                      | https://consent.adatree.au                                                                      |
-
-## Troubleshooting
-
-```text
-An error occurred (MessageRejected) when calling the SendTemplatedEmail operation: Email address is not verified. 
-The following identities failed the check in region XXX: xxx@yyy.com
-```
-
-* Amazon SES > Configuration: Identities
-* Click `Create Identity`
-* Follow the prompts to add a verified email address
-
-## Cheatsheet
-
-```bash
-#configure tenant
-export tenant=xxxxxx
-export src=xxxxxx
-export testemail=xxxxxx
-export dashboardDomain=xxxxxx
-```
-
-Don't forget to prepend the following commands with the appropriate `AWS_PROFILE` that you want to send the email
-template from!
-
-### consent granted
-```bash
-aws ses send-templated-email \
---source ${src} \
---destination ToAddresses=${testemail} \
---template ${tenant}-consent-granted \
---template-data '{"dashboardLink":"https://${dashboardDomain}.dashboard.adatree.com.au/","accessFrequency":"multiple times","osps":[{"cdrPolicyUri":"https://adatree.com.au/cdr-policy","serviceDescription":"hello world!","accreditationId":"ADRX00000071","providerName":"Adatree Pty Ltd"},{"serviceDescription":"sample description","providerName":"test provider"}],"dataHolderName":"Red Australia Bank","sharingEndDate":"15 May 2025","purposes":[{"purpose":"Name"}],"scopes":[{"scope":"Personal information"},{"scope":"Bank account name, type and balance"}],"givenAt":"15 May 2024","granteeName":"John Doe","postUsageActioner": "Adatree", "postUsageAction": "deleting"}'
-```
-
-### consent reminder
-```bash
-aws ses send-templated-email \
---source ${src} \
---destination ToAddresses=${testemail} \
---template ${tenant}-consent-reminder \
---template-data '{ "dataHolderName":  "Red Australia Bank", "granteeName": "John Doe", "dashboardLink":  "https://${dashboardDomain}.dashboard.adatree.com.au/", "givenAt": "some time in future", "sharingEndDate":  "right now", "scopes": "scope 1 scope 2 scope 3", "purposes": [{"purpose":"test email template"}], "accessFrequency": "ongoing", "osps":[{"cdrPolicyUri":"https://adatree.com.au/cdr-policy","serviceDescription":"hello world!","accreditationId":"ADRX00000071","providerName":"Adatree Pty Ltd"},{"serviceDescription":"sample description","providerName":"test provider"}] }'
-```
-
-### consent revoked
-```bash
-aws ses send-templated-email \
---source ${src} \
---destination ToAddresses=${testemail} \
---template ${tenant}-consent-revoked \
---template-data '{ "dataHolderName":  "Red Australia Bank", "granteeName": "John Doe", "dashboardLink":  "https://${dashboardDomain}.dashboard.adatree.com.au/", "givenAt": "some time in future", "sharingEndDate":  "right now", "scopes": "scope 1 scope 2 scope 3", "purposes": [{"purpose":"test email template"}], "accessFrequency": "ongoing", "osps":[{"cdrPolicyUri":"https://adatree.com.au/cdr-policy","serviceDescription":"hello world!","accreditationId":"ADRX00000071","providerName":"Adatree Pty Ltd"},{"serviceDescription":"sample description","providerName":"test provider"}] }'
-```
-
-### consent withdrawal
-```bash
-aws ses send-templated-email \
---source ${src} \
---destination ToAddresses=${testemail} \
---template ${tenant}-consent-withdrawal \
---template-data '{ "dataHolderName":  "Red Australia Bank", "granteeName": "John Doe", "dashboardLink":  "https://${dashboardDomain}.dashboard.adatree.com.au/", "givenAt": "some time in future", "sharingEndDate":  "right now", "scopes": "scope 1 scope 2 scope 3", "purposes": [{"purpose":"test email template"}], "accessFrequency": "ongoing", "osps":[{"cdrPolicyUri":"https://adatree.com.au/cdr-policy","serviceDescription":"hello world!","accreditationId":"ADRX00000071","providerName":"Adatree Pty Ltd"},{"serviceDescription":"sample description","providerName":"test provider"}] }'
-```
-
-### consent expiry
-```bash
-aws ses send-templated-email \
---source ${src} \
---destination ToAddresses=${testemail} \
---template ${tenant}-consent-expired \
---template-data '{ "dataHolderName":  "Red Australia Bank", "granteeName": "John Doe", "dashboardLink":  "https://${dashboardDomain}.dashboard.adatree.com.au/", "givenAt": "some time in future", "sharingEndDate":  "right now", "scopes": "scope 1 scope 2 scope 3", "purposes": [{"purpose":"test email template"}], "accessFrequency": "ongoing", "osps":[{"cdrPolicyUri":"https://adatree.com.au/cdr-policy","serviceDescription":"hello world!","accreditationId":"ADRX00000071","providerName":"Adatree Pty Ltd"},{"serviceDescription":"sample description","providerName":"test provider"}] }'
-```
-
-### consent extended
-```bash
-aws ses send-templated-email \
---source ${src} \
---destination ToAddresses=${testemail} \
---template ${tenant}-consent-extended \
---template-data '{"dashboardLink":"https://${dashboardDomain}.dashboard.adatree.com.au/","accessFrequency":"multiple times","osps":[{"cdrPolicyUri":"https://adatree.com.au/cdr-policy","serviceDescription":"hello world!","accreditationId":"ADRX00000071","providerName":"Adatree Pty Ltd"},{"serviceDescription":"sample description","providerName":"test provider"}],"dataHolderName":"Red Australia Bank","sharingEndDate":"15 May 2025","purposes":[{"purpose":"Name"}],"scopes":[{"scope":"Personal information"},{"scope":"Bank account name, type and balance"}],"givenAt":"15 May 2024","granteeName":"John Doe"}'
-```
-
-### otp
-```bash
-aws ses send-templated-email \
---source ${src} \
---destination ToAddresses=${testemail} \
---template ${tenant}-consent-otp \
---template-data '{"oneTimePassword":"123456", "sender": "Adatree"}'
-```
-
-### passwordless login
-```bash
-aws ses send-templated-email \
---source ${src} \
---destination ToAddresses=${testemail} \
---template ${tenant}-consent-passwordless-link \
---template-data '{"link":"www.test.dashboard.com", "sender": "Adatree"}'
-```
-
-NB: You can easily generate mock `template-data` values by setting a breakpoint in the tests inside the consent
-management service eg. `EmailServiceTest`
-
-```bash
-#override default email template
-aws ses update-template --cli-input-json file://path/to/file.json
-```
-
-JSON format can be generated using 
-```bash
-aws ses update-template --generate-cli-skeleton
-```
