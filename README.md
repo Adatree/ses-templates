@@ -27,16 +27,16 @@ and ensure the formatter does not remove necessary spaces. These minified templa
 
 This table outlines the scenario under which each email template will be used:
 
-| File              | Description                                                                                                                                          |
-|-------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
-| consent-granted   | Email sent to a consumer when their consent transitions from REQUESTED to ACTIVE status in the Adatree platform.                                     | 
-| consent-extended  | Email sent to a consumer after the sharing end date of their consent has been successfully amended. Requires consent extension feature to be enabled | 
-| consent-reminder  | Email sent to a consumer 3 months before their consent expires.                                                                                      | 
-| consent-expired   | Email sent to a consumer after their consent's sharing end date has passed.                                                                          | 
-| consent-withdrawn | Email sent to a consumer after they revoke their consent either through the consent dashboard or from the data holder's portal.                      | 
-| consent-revoked   | Email sent to a consumer after the ADR (ie. Adatree) revokes the consent.                                                                            | 
-| one-time-password | Email sent to a consumer containing the one-time password (OTP) required to login to the consent dashboard to manage their own consents.             | 
-| passwordless-link | Email sent to a consumer with a link that allows them to log in to the consent dashboard without a password to manage their consents.                | 
+| File              |   | Description                                                                                                                                          |
+|-------------------|:--|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| consent-granted   |   | Email sent to a consumer when their consent transitions from REQUESTED to ACTIVE status in the Adatree platform.                                     | 
+| consent-extended  |   | Email sent to a consumer after the sharing end date of their consent has been successfully amended. Requires consent extension feature to be enabled | 
+| consent-reminder  |   | Email sent to a consumer every 90 days as per [CDR regulatory requirement](https://cx.dsb.gov.au/notifications/90-day-notifications).                | 
+| consent-expired   |   | Email sent to a consumer after their consent's sharing end date has passed.                                                                          | 
+| consent-withdrawn |   | Email sent to a consumer after they revoke their consent either through the consent dashboard or from the data holder's portal.                      | 
+| consent-revoked   |   | Email sent to a consumer after the ADR (ie. Adatree) revokes the consent.                                                                            | 
+| one-time-password |   | Email sent to a consumer containing the one-time password (OTP) required to login to the consent dashboard to manage their own consents.             | 
+| passwordless-link |   | Email sent to a consumer with a link that allows them to log in to the consent dashboard without a password to manage their consents.                | 
 
 ## Template Attributes
 
