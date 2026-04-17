@@ -1,14 +1,13 @@
 # ses-templates
 
 These [AWS Simple Email Service (SES)](https://aws.amazon.com/ses/) HTML templates are the default templates used for
-notifications sent from the Consent Management service. The HTML template verbiage should also be a reflection of what's
-documented in [Confluence](https://adatree.atlassian.net/wiki/x/AQBAGw).
+[CDR Receipts](https://www.cdr.gov.au/for-providers/legal-obligations-data-recipients) sent by the Adatree system. 
+The HTML template verbiage has been signed off as compliant from a regulatory standpoint.
 
 ## Minifying HTML
 
 HTML templates must be minified (using online tools) before being injected into the service. Be careful when minifying
-and ensure the formatter does not remove necessary spaces. These minified templates are currently put into
-[adr-platform-deploy](https://github.com/Adatree/adr-platform-deploy/blob/main/service-catalog/products/per-tenant-infra/stack-of-stacks.yaml).
+and ensure the formatter does not remove necessary spaces.
 
 ## Email Subjects
 
@@ -58,3 +57,5 @@ This table outlines the scenario under which each email template will be used:
 | oneTimePassword   | One time password code used to login to the consent dashboard for consent management                                                                                                                                                                                                                                                                                                                                                             | 123456                                                                                          |
 | sender            | Brand name of the sender                                                                                                                                                                                                                                                                                                                                                                                                                         | Adatree                                                                                         |
 | link              | Temporary URL that can be used to login to the consent dashboard for consent management without a password.                                                                                                                                                                                                                                                                                                                                      | https://consent.adatree.au                                                                      |
+
+Please note that not every attribute will be available for each of the email templates and we expect the placeholders to remain in each one for our system to function as expected.
